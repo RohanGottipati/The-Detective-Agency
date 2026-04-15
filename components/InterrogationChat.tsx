@@ -96,19 +96,19 @@ export default function InterrogationChat({
     >
       {/* Header */}
       <div
-        className="px-5 py-3 flex items-center justify-between border-b"
+        className="px-5 py-4 flex items-center justify-between gap-4 border-b"
         style={{ borderColor: "var(--noir-sepia)", backgroundColor: "var(--noir-dark)" }}
       >
         <div>
-          <h3 className="font-bold text-lg" style={{ fontFamily: "'Special Elite', serif", color: "var(--noir-sepia)" }}>
+          <h3 className="font-bold text-lg" style={{ color: "var(--noir-sepia)" }}>
             Interrogation Room
           </h3>
-          <p className="text-xs" style={{ color: "#888" }}>
-            Expose the scammer's lies
+          <p className="text-sm" style={{ color: "var(--text-on-dark-muted)" }}>
+            Expose the scammer&apos;s lies
           </p>
         </div>
         <div
-          className="text-sm font-bold px-3 py-1 rounded"
+          className="text-sm font-bold px-4 py-2 rounded shrink-0"
           style={{
             backgroundColor: inconsistenciesFound >= 3 ? "var(--noir-red)" : "rgba(139,0,0,0.2)",
             color: inconsistenciesFound >= 3 ? "white" : "var(--noir-red)",
@@ -121,7 +121,7 @@ export default function InterrogationChat({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ minHeight: "200px" }}>
+      <div className="flex-1 overflow-y-auto p-5 space-y-4" style={{ minHeight: "200px" }}>
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === "player" ? "justify-end" : "justify-start"}`}>
             <div className="max-w-[80%]">
@@ -143,7 +143,7 @@ export default function InterrogationChat({
               </div>
               {msg.inconsistency && (
                 <div
-                  className="mt-1 text-xs font-bold px-2 py-1 rounded"
+                  className="mt-2 text-sm font-bold px-3 py-2 rounded"
                   style={{ backgroundColor: "rgba(139,0,0,0.2)", color: "#ff9999" }}
                   role="status"
                   aria-label={`Inconsistency exposed: ${msg.inconsistency}`}
@@ -151,7 +151,7 @@ export default function InterrogationChat({
                   ✓ Caught: {msg.inconsistency}
                 </div>
               )}
-              <p className="text-xs mt-1 px-1" style={{ color: "#666" }}>
+              <p className="text-sm mt-2 px-1 font-medium" style={{ color: "var(--text-on-dark-soft)" }}>
                 {msg.role === "player" ? "You" : "Scammer"}
               </p>
             </div>
@@ -160,8 +160,8 @@ export default function InterrogationChat({
         {loading && (
           <div className="flex justify-start">
             <div
-              className="px-4 py-3 rounded-lg text-sm italic"
-              style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "#888" }}
+              className="px-4 py-3 rounded-lg text-sm"
+              style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "var(--text-on-dark-muted)" }}
               aria-label="Scammer is typing"
             >
               ...
@@ -174,7 +174,7 @@ export default function InterrogationChat({
       {/* Input */}
       <form
         onSubmit={send}
-        className="p-4 border-t flex gap-3"
+        className="p-5 border-t flex gap-4"
         style={{ borderColor: "var(--noir-sepia)" }}
         aria-label="Send interrogation message"
       >
@@ -188,7 +188,7 @@ export default function InterrogationChat({
           style={{
             backgroundColor: "rgba(255,255,255,0.08)",
             borderColor: "var(--noir-sepia)",
-            color: "var(--noir-cream)",
+            color: "var(--text-on-dark)",
             minHeight: "60px",
           }}
           aria-label="Your question for the suspect"
@@ -196,7 +196,7 @@ export default function InterrogationChat({
         <button
           type="submit"
           disabled={!input.trim() || loading || inconsistenciesFound >= 3}
-          className="px-5 font-bold rounded-lg transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2"
+          className="px-6 text-base font-bold rounded-lg transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2"
           style={{
             backgroundColor: "var(--noir-sepia)",
             color: "var(--noir-dark)",

@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-readable: 'Atkinson Hyperlegible', 'Segoe UI', Arial, sans-serif;
   --noir-sepia: #C8A96E;
   --noir-dark: #1A1A1A;
   --noir-cream: #F5F0E8;
@@ -12,6 +13,13 @@
   --noir-paper: #E8DFC8;
   --noir-shadow: #0D0D0D;
   --noir-medium: #2A2A2A;
+  --text-on-dark: #FFF8ED;
+  --text-on-dark-secondary: #F0E6D4;
+  --text-on-dark-muted: #D5CAB7;
+  --text-on-dark-soft: #B7AA95;
+  --text-on-paper: #1E1710;
+  --text-on-paper-secondary: #3B3126;
+  --text-on-paper-muted: #544637;
   --background: var(--noir-dark);
   --foreground: var(--noir-cream);
 }
@@ -21,12 +29,36 @@
 }
 
 body {
-  color: var(--noir-cream);
+  color: var(--text-on-dark);
   background: var(--noir-dark);
-  font-family: 'Special Elite', Georgia, serif;
-  font-size: 20px;
-  line-height: 1.7;
+  font-family: var(--font-readable);
+  font-size: clamp(20px, 1.15rem + 0.28vw, 22px);
+  line-height: 1.8;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::placeholder {
+  color: var(--text-on-dark-soft);
+  opacity: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-readable);
+  letter-spacing: 0.01em;
 }
 
 /* WCAG 2.1 AA focus ring */
@@ -96,7 +128,7 @@ body {
     text-wrap: balance;
   }
   .font-typewriter {
-    font-family: 'Special Elite', Georgia, serif;
+    font-family: var(--font-readable);
   }
   .text-sepia {
     color: var(--noir-sepia);

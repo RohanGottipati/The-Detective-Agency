@@ -33,7 +33,7 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
     >
       {/* Folder tab */}
       <div
-        className="absolute -top-3 left-6 px-3 py-1 rounded-t-md text-sm font-bold z-10"
+        className="absolute -top-3 left-6 px-4 py-2 rounded-t-md text-sm font-bold tracking-[0.08em] z-10"
         style={{ backgroundColor: "var(--noir-paper)", color: "var(--noir-dark)" }}
       >
         CASE FILE
@@ -50,7 +50,7 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
       >
         {solved && (
           <div
-            className="absolute top-3 right-4 text-sm font-bold rotate-[-12deg] border-2 px-2 py-1 opacity-80"
+            className="absolute top-3 right-4 text-sm font-bold tracking-[0.08em] rotate-[-12deg] border-2 px-3 py-1.5 opacity-80"
             style={{ color: "var(--noir-red)", borderColor: "var(--noir-red)" }}
           >
             CLOSED
@@ -62,11 +62,11 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
           <div>
             <h3
               className="text-xl font-bold leading-tight"
-              style={{ fontFamily: "'Special Elite', serif", color: "var(--noir-dark)" }}
+              style={{ color: "var(--noir-dark)" }}
             >
               {caseData.title}
             </h3>
-            <p className="text-sm mt-1" style={{ color: "#555" }}>
+            <p className="text-sm mt-2" style={{ color: "var(--text-on-paper-secondary)" }}>
               {caseData.scam_type}
             </p>
           </div>
@@ -74,13 +74,13 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
 
         <div className="flex items-center gap-2 mt-4">
           <span
-            className="text-xs font-bold px-2 py-1 rounded uppercase tracking-wide text-white"
+            className="text-sm font-bold px-3 py-1.5 rounded text-white"
             style={{ backgroundColor: diffColor }}
           >
             {caseData.difficulty}
           </span>
-          <span className="text-xs" style={{ color: "#777" }}>
-            Click to open file
+          <span className="text-sm font-medium" style={{ color: "var(--text-on-paper-muted)" }}>
+            Open this case file
           </span>
         </div>
       </div>

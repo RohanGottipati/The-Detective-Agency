@@ -20,12 +20,12 @@ export default function CasesPage() {
 
   return (
     <main
-      className="min-h-screen px-4 py-10"
+      className="min-h-screen px-5 sm:px-6 py-10"
       style={{ backgroundColor: "var(--noir-dark)" }}
     >
       <AudioController />
 
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Back to HQ */}
         <Link
           href="/"
@@ -39,11 +39,11 @@ export default function CasesPage() {
         <div className="mb-10 text-center">
           <h1
             className="text-4xl sm:text-5xl font-bold mb-3"
-            style={{ fontFamily: "'Special Elite', serif", color: "var(--noir-cream)" }}
+            style={{ color: "var(--noir-cream)" }}
           >
             Open Cases
           </h1>
-          <p className="text-lg" style={{ color: "#888" }}>
+          <p className="text-lg" style={{ color: "var(--text-on-dark-muted)" }}>
             Select a case file to begin your investigation, Detective.
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function CasesPage() {
           <Link
             href="/archive"
             className="text-base hover:underline focus-visible:outline-2 rounded px-2"
-            style={{ color: "#666" }}
+            style={{ color: "var(--text-on-dark-muted)" }}
           >
             Review Closed Cases →
           </Link>
