@@ -1,0 +1,63 @@
+{
+  "id": "case-001",
+  "title": "The Grandson's Gambit",
+  "scam_type": "Grandparent Scam",
+  "difficulty": "Beginner",
+  "briefing": "Detective, a senior citizen just reported a suspicious text message from an unknown number. The sender claims to be her grandson, in legal trouble, and demanding gift cards immediately. Something doesn't add up — and the Agency needs your trained eye to crack this one.",
+  "evidence": {
+    "type": "sms",
+    "html": "<div style='font-family: -apple-system, sans-serif; max-width: 320px; margin: 0 auto; background: #f0f0f0; border-radius: 18px; overflow: hidden;'><div style='background: #e5e5ea; padding: 12px 16px; font-size: 13px; color: #666; text-align: center; border-bottom: 1px solid #d0d0d5;'>Unknown Number: +1 (555) 847-2931</div><div style='padding: 16px; display: flex; flex-direction: column; gap: 10px;'><div style='background: #e5e5ea; border-radius: 18px 18px 18px 4px; padding: 10px 14px; max-width: 85%; font-size: 16px; line-height: 1.5; color: #000;'>Grandma it&apos;s me Tyler. I&apos;m in serious trouble. I got arrested last night and I need your help RIGHT NOW</div><div style='background: #e5e5ea; border-radius: 18px 18px 18px 4px; padding: 10px 14px; max-width: 85%; font-size: 16px; line-height: 1.5; color: #000;'>My lawyer says I need $2,000 in Google Play gift cards TODAY or I have to stay in jail until Monday. Please grandma I&apos;m so scared</div><div style='background: #e5e5ea; border-radius: 18px 18px 18px 4px; padding: 10px 14px; max-width: 85%; font-size: 16px; line-height: 1.5; color: #000;'>Please don&apos;t tell mom and dad — they&apos;ll be so upset with me. Just you and me, okay? This has to stay between us</div><div style='background: #e5e5ea; border-radius: 18px 18px 18px 4px; padding: 10px 14px; max-width: 85%; font-size: 16px; line-height: 1.5; color: #000;'>Buy the cards at CVS and scratch off the back and text me the numbers. It&apos;s the only way they&apos;ll accept payment. Hurry grandma — I only have until 5pm today only</div></div></div>"
+  },
+  "hotspots": [
+    {
+      "id": "clue-001",
+      "label": "Unknown phone number",
+      "explanation": "This number isn't saved in any contacts. Your real grandson's number would already be in your phone — you'd recognize it immediately.",
+      "position": { "top": "0%", "left": "0%", "width": "100%", "height": "12%" }
+    },
+    {
+      "id": "clue-002",
+      "label": "Urgent deadline — 'today only', '5pm'",
+      "explanation": "Scammers create artificial deadlines to stop you from thinking clearly or calling to verify. Real emergencies don't have 5pm cutoffs for gift card payments.",
+      "position": { "top": "82%", "left": "0%", "width": "100%", "height": "18%" }
+    },
+    {
+      "id": "clue-003",
+      "label": "Gift card payment request",
+      "explanation": "No legitimate lawyer, court, or bail bondsman accepts gift cards as payment. Gift cards are untraceable — that's exactly why scammers love them.",
+      "position": { "top": "62%", "left": "0%", "width": "100%", "height": "20%" }
+    },
+    {
+      "id": "clue-004",
+      "label": "Request for secrecy — 'don't tell mom and dad'",
+      "explanation": "Asking you to keep secrets from family is a classic manipulation tactic. It isolates you so no one can talk you out of sending money.",
+      "position": { "top": "43%", "left": "0%", "width": "100%", "height": "19%" }
+    },
+    {
+      "id": "clue-005",
+      "label": "Emotional pressure — 'I'm so scared'",
+      "explanation": "Scammers deliberately trigger fear and sympathy to override your good judgment. They know grandparents will move fast when they think a grandchild is in danger.",
+      "position": { "top": "22%", "left": "0%", "width": "100%", "height": "21%" }
+    }
+  ],
+  "min_clues_to_deduce": 3,
+  "deduction_options": [
+    {
+      "id": "correct",
+      "text": "Grandparent scam — the unknown number, urgency, gift card demand, and secrecy request are the classic four markers",
+      "is_correct": true
+    },
+    {
+      "id": "wrong-1",
+      "text": "Legitimate emergency — the grandson really needs help immediately",
+      "is_correct": false
+    },
+    {
+      "id": "wrong-2",
+      "text": "Wrong number — someone is confused and texting the wrong person",
+      "is_correct": false
+    }
+  ],
+  "learning_summary": "Real emergencies don't require gift cards. Always call your grandchild directly on their known number before sending any money. Real lawyers and courts never ask for gift card payments.",
+  "has_interrogation": false
+}

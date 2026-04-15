@@ -1,0 +1,63 @@
+{
+  "id": "case-002",
+  "title": "The Urgent Invoice",
+  "scam_type": "Phishing Email",
+  "difficulty": "Intermediate",
+  "briefing": "Detective, a retired accountant received this email this morning and nearly clicked the link before something felt off. The sender claims to be Amazon — but your trained eye knows that names can be faked. Examine every detail before it's too late.",
+  "evidence": {
+    "type": "email",
+    "html": "<div style='font-family: Arial, sans-serif; max-width: 540px; margin: 0 auto; background: #ffffff; border: 1px solid #ddd; border-radius: 4px; overflow: hidden;'><div style='background: #f5f5f5; padding: 12px 16px; border-bottom: 1px solid #ddd; font-size: 13px; color: #333;'><div style='margin-bottom: 4px;'><strong>From:</strong> <span style='color: #c0392b;'>security-alert@amaz0n-support.com</span></div><div style='margin-bottom: 4px;'><strong>To:</strong> customer@email.com</div><div style='margin-bottom: 4px;'><strong>Subject:</strong> ⚠️ URGENT: Your Amazon Account Has Been Compromised — Immediate Action Required</div><div><strong>Date:</strong> April 15, 2026 — 7:43 AM</div></div><div style='padding: 24px;'><div style='text-align: center; margin-bottom: 20px;'><div style='font-size: 28px; font-weight: bold; color: #FF9900; letter-spacing: 1px;'>amazon</div></div><p style='font-size: 15px; color: #333; line-height: 1.6; margin: 0 0 16px;'>Dear Valued Customer,</p><p style='font-size: 15px; color: #333; line-height: 1.6; margin: 0 0 16px;'>We have detected <strong>unauthorized access</strong> to your Amazon account from an unrecognized device. To protect your account and prevent permanent suspension, you must verify your identity within <strong style='color: #c0392b;'>24 hours</strong>.</p><p style='font-size: 15px; color: #333; line-height: 1.6; margin: 0 0 20px;'>If you do not verify immediately, <strong style='color: #c0392b;'>your account will be permanently closed</strong> and all pending orders will be cancelled.</p><div style='text-align: center; margin: 24px 0;'><a href='http://amazon-account-verify.suspicious-site.net/login' style='background: #FF9900; color: #111; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 16px; display: inline-block;'>Verify Your Account Now</a></div><p style='font-size: 13px; color: #777; line-height: 1.6; margin: 0 0 12px;'>You will be asked to confirm your: password, billing address, and credit card number to complete verification.</p><hr style='border: none; border-top: 1px solid #eee; margin: 20px 0;'/><p style='font-size: 12px; color: #999;'>Amazon Customer Service<br/>© 2026 amaz0n-support.com. All rights reserved.</p></div></div>"
+  },
+  "hotspots": [
+    {
+      "id": "clue-001",
+      "label": "Fake sender domain — amaz0n-support.com",
+      "explanation": "The real Amazon always sends email from @amazon.com. Notice the '0' (zero) instead of 'o' in 'amaz0n'. This is a lookalike domain — a classic phishing trick to fool a quick glance.",
+      "position": { "top": "0%", "left": "0%", "width": "100%", "height": "18%" }
+    },
+    {
+      "id": "clue-002",
+      "label": "Generic greeting — 'Dear Valued Customer'",
+      "explanation": "Amazon knows your name — they use it in every real email. 'Dear Valued Customer' means the sender doesn't actually know who you are. Real companies personalize their emails.",
+      "position": { "top": "28%", "left": "0%", "width": "100%", "height": "10%" }
+    },
+    {
+      "id": "clue-003",
+      "label": "Threatening language — 'account will be permanently closed'",
+      "explanation": "Threats of immediate, permanent consequences are designed to panic you into acting without thinking. Legitimate companies give you time and multiple ways to resolve issues.",
+      "position": { "top": "44%", "left": "0%", "width": "100%", "height": "14%" }
+    },
+    {
+      "id": "clue-004",
+      "label": "Suspicious link URL — amazon-account-verify.suspicious-site.net",
+      "explanation": "Hover over the button before clicking — the real destination is not amazon.com. Scammers make buttons look official while hiding dangerous URLs underneath.",
+      "position": { "top": "58%", "left": "0%", "width": "100%", "height": "14%" }
+    },
+    {
+      "id": "clue-005",
+      "label": "Requests password, credit card, and SSN",
+      "explanation": "Amazon never asks for your password by email. No legitimate company asks for your full credit card number in an email. This is designed to harvest your financial information.",
+      "position": { "top": "74%", "left": "0%", "width": "100%", "height": "12%" }
+    }
+  ],
+  "min_clues_to_deduce": 3,
+  "deduction_options": [
+    {
+      "id": "correct",
+      "text": "Phishing email — the fake domain, generic greeting, threats, and suspicious link all confirm this is a scam designed to steal account credentials",
+      "is_correct": true
+    },
+    {
+      "id": "wrong-1",
+      "text": "Legitimate Amazon security alert — the account really has been compromised and needs immediate action",
+      "is_correct": false
+    },
+    {
+      "id": "wrong-2",
+      "text": "Spam marketing email — harmless but annoying promotional content",
+      "is_correct": false
+    }
+  ],
+  "learning_summary": "Check the sender's actual email address — not just the display name. Never click links in urgent emails. Go directly to amazon.com by typing it yourself, then check your account. Real companies never ask for passwords by email.",
+  "has_interrogation": false
+}

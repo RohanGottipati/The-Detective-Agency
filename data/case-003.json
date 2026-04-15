@@ -1,0 +1,57 @@
+{
+  "id": "case-003",
+  "title": "The Tech Support Trap",
+  "scam_type": "Fake Tech Support",
+  "difficulty": "Advanced",
+  "briefing": "Detective, a retired engineer just called the Agency in a panic. A terrifying pop-up took over his screen, telling him his computer is infected and to call Microsoft immediately. But something in his gut said this wasn't right — and he was correct. Examine the evidence, then take it further: interrogate the scammer yourself.",
+  "evidence": {
+    "type": "popup",
+    "html": "<div style='font-family: Arial, sans-serif; background: #0078d4; color: white; padding: 0; border-radius: 4px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.5); max-width: 520px; margin: 0 auto;'><div style='background: #005a9e; padding: 8px 12px; display: flex; align-items: center; gap: 8px; font-size: 13px;'><div style='width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; display: inline-block;'></div><div style='width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e; display: inline-block;'></div><div style='width: 12px; height: 12px; border-radius: 50%; background: #28c840; display: inline-block;'></div><span style='margin-left: 8px; color: #ccc; font-size: 12px;'>http://microsof-support-alert.win32virus.com/warning</span></div><div style='padding: 24px;'><div style='text-align: center; margin-bottom: 16px;'><div style='font-size: 22px; font-weight: bold; margin-bottom: 4px;'>⊞ Microsoft Windows</div><div style='font-size: 11px; color: #ccc;'>Security Alert</div></div><div style='background: #c50000; border-radius: 6px; padding: 16px; margin-bottom: 20px; text-align: center;'><p style='font-size: 20px; font-weight: bold; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 1px;'>⚠ YOUR COMPUTER HAS BEEN INFECTED ⚠</p><p style='font-size: 14px; margin: 0; line-height: 1.5;'>TROJAN VIRUS DETECTED — ALL PERSONAL DATA AT RISK<br/>DO NOT CLOSE THIS WINDOW OR TURN OFF YOUR COMPUTER</p></div><p style='font-size: 16px; text-align: center; margin: 0 0 20px; line-height: 1.6;'>Your Windows system has been blocked due to suspicious activity. Your personal files, banking information, and passwords are being accessed by hackers right now.</p><div style='background: rgba(255,255,255,0.15); border-radius: 6px; padding: 16px; text-align: center; margin-bottom: 16px;'><p style='font-size: 15px; font-weight: bold; margin: 0 0 8px;'>CALL MICROSOFT SUPPORT IMMEDIATELY</p><p style='font-size: 28px; font-weight: bold; margin: 0; letter-spacing: 2px;'>1-800-555-0172</p><p style='font-size: 12px; color: #ccc; margin: 6px 0 0;'>Available 24/7 — Do not delay</p></div><p style='font-size: 12px; color: #ffcc00; text-align: center; margin: 0;'>WARNING: Closing this window will result in immediate data loss and account suspension</p></div></div>"
+  },
+  "hotspots": [
+    {
+      "id": "clue-001",
+      "label": "ALL-CAPS alarming language designed to induce panic",
+      "explanation": "Real Microsoft security alerts use calm, professional language. Aggressive all-caps warnings are designed to override your rational thinking with fear. If it's screaming at you, it's trying to manipulate you.",
+      "position": { "top": "25%", "left": "0%", "width": "100%", "height": "20%" }
+    },
+    {
+      "id": "clue-002",
+      "label": "Phone number — not on any official Microsoft page",
+      "explanation": "Microsoft's real support number is on microsoft.com — never in a pop-up. Any phone number in an alarm pop-up goes directly to scammers. Real Microsoft support doesn't work this way.",
+      "position": { "top": "58%", "left": "0%", "width": "100%", "height": "18%" }
+    },
+    {
+      "id": "clue-003",
+      "label": "Pop-up threatens consequences for closing — 'Do not close this window'",
+      "explanation": "Legitimate software never threatens you for closing a window. This is a trap designed to keep you panicked and on the page. You can always safely close your browser — it cannot actually harm your computer.",
+      "position": { "top": "78%", "left": "0%", "width": "100%", "height": "22%" }
+    },
+    {
+      "id": "clue-004",
+      "label": "Website URL is not microsoft.com",
+      "explanation": "Look at the browser address bar: 'microsof-support-alert.win32virus.com' — not microsoft.com. Scammers buy lookalike domain names to appear official. The real Microsoft never shows alerts from third-party sites.",
+      "position": { "top": "0%", "left": "0%", "width": "100%", "height": "10%" }
+    }
+  ],
+  "min_clues_to_deduce": 3,
+  "deduction_options": [
+    {
+      "id": "correct",
+      "text": "Fake tech support scam — the unofficial URL, panic language, threat about closing the window, and unverified phone number confirm this is a trap, not a real Microsoft alert",
+      "is_correct": true
+    },
+    {
+      "id": "wrong-1",
+      "text": "Legitimate Microsoft security warning — the computer really is infected and needs immediate attention",
+      "is_correct": false
+    },
+    {
+      "id": "wrong-2",
+      "text": "Browser glitch — an accidental pop-up from a buggy website, nothing to worry about",
+      "is_correct": false
+    }
+  ],
+  "learning_summary": "Microsoft never contacts you through pop-up warnings. Never call a phone number shown in a browser alert. Force-quit your browser (Cmd+Q on Mac, Alt+F4 on Windows) to close uncloseable pop-ups. Real tech support is contacted by you — not the other way around.",
+  "has_interrogation": true
+}

@@ -1,27 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --noir-sepia: #C8A96E;
+  --noir-dark: #1A1A1A;
+  --noir-cream: #F5F0E8;
+  --noir-red: #8B0000;
+  --noir-paper: #E8DFC8;
+  --noir-shadow: #0D0D0D;
+  --noir-medium: #2A2A2A;
+  --background: var(--noir-dark);
+  --foreground: var(--noir-cream);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--noir-cream);
+  background: var(--noir-dark);
+  font-family: 'Special Elite', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* WCAG 2.1 AA focus ring */
+:focus-visible {
+  outline: 3px solid var(--noir-sepia);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Minimum touch target utility */
+.touch-target {
+  min-width: 60px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Typewriter animation */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Stamp animation */
+@keyframes stamp-in {
+  0% { transform: scale(2) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-5deg); opacity: 1; }
+}
+
+.stamp-animation {
+  animation: stamp-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Clue found glow */
+@keyframes clue-found {
+  0% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(139, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0); }
+}
+
+.clue-pulse {
+  animation: clue-found 0.8s ease-out;
+}
+
+/* Folder hover */
+@keyframes folder-lift {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(-4px) rotate(1deg); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--noir-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--noir-sepia);
+  border-radius: 4px;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .font-typewriter {
+    font-family: 'Special Elite', Georgia, serif;
+  }
+  .text-sepia {
+    color: var(--noir-sepia);
+  }
+  .text-cream {
+    color: var(--noir-cream);
+  }
+  .text-noir-red {
+    color: var(--noir-red);
+  }
+  .bg-noir-dark {
+    background-color: var(--noir-dark);
+  }
+  .bg-noir-paper {
+    background-color: var(--noir-paper);
+  }
+  .bg-noir-medium {
+    background-color: var(--noir-medium);
+  }
+  .border-sepia {
+    border-color: var(--noir-sepia);
   }
 }
