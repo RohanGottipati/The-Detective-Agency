@@ -47,11 +47,11 @@ export default function AudioController() {
       onClick={toggleMute}
       aria-label={muted ? "Unmute background audio" : "Mute background audio"}
       title={muted ? "Enable ambient sounds" : "Mute ambient sounds"}
-      className="fixed top-4 right-4 z-50 touch-target w-14 h-14 rounded-full border-2 flex items-center justify-center text-xl transition-all hover:scale-110 focus-visible:outline-2"
+      className="fixed top-4 right-4 z-50 touch-target w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl transition-all hover:scale-110 focus-visible:outline-2"
       style={{
         borderColor: "var(--noir-sepia)",
         backgroundColor: "var(--noir-dark)",
-        color: muted ? "#666" : "var(--noir-sepia)",
+        color: muted ? "var(--text-on-dark-soft)" : "var(--noir-sepia)",
       }}
     >
       {muted ? "🔇" : "🎵"}

@@ -36,11 +36,11 @@ export default function EvidenceViewer({
   return (
     <div className="w-full">
       <div
-        className="text-xs font-bold uppercase tracking-widest mb-3 px-1"
+        className="text-sm font-bold tracking-[0.06em] mb-4 px-1"
         style={{ color: "var(--noir-sepia)" }}
         aria-label={`Evidence type: ${EVIDENCE_LABELS[evidence.type]}`}
       >
-        EXHIBIT A — {EVIDENCE_LABELS[evidence.type]}
+        Exhibit A - {EVIDENCE_LABELS[evidence.type]}
       </div>
 
       <div className="relative rounded-lg overflow-hidden border-2" style={{ borderColor: "var(--noir-sepia)" }}>
@@ -92,7 +92,7 @@ export default function EvidenceViewer({
             >
               {isFound && (
                 <span
-                  className="absolute inset-0 flex items-center justify-center text-xs font-bold opacity-80 select-none pointer-events-none"
+                  className="absolute inset-0 flex items-center justify-center text-sm font-bold opacity-80 select-none pointer-events-none"
                   style={{ color: "var(--noir-red)" }}
                   aria-hidden="true"
                 >
@@ -106,7 +106,7 @@ export default function EvidenceViewer({
 
       {nudge && (
         <p
-          className="mt-3 text-center text-sm italic"
+          className="mt-4 text-center text-sm font-medium"
           style={{ color: "var(--noir-sepia)" }}
           role="status"
           aria-live="polite"
@@ -116,16 +116,16 @@ export default function EvidenceViewer({
       )}
 
       <p
-        className="mt-3 text-center text-sm italic"
-        style={{ color: "#888" }}
+        className="mt-3 text-center text-sm"
+        style={{ color: "var(--text-on-dark-muted)" }}
         aria-label="Instruction: tap highlighted areas to find clues"
       >
         Tap suspicious areas of the evidence to mark clues
       </p>
 
       <p
-        className="mt-4 text-center font-bold"
-        style={{ fontSize: "22px", color: "var(--noir-cream)" }}
+        className="mt-4 text-center text-lg font-bold"
+        style={{ color: "var(--noir-cream)" }}
         aria-live="polite"
         aria-label={`${foundClues.length} of ${hotspots.length} clues found`}
       >

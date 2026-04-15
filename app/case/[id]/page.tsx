@@ -139,7 +139,7 @@ export default function CasePage() {
         style={{ backgroundColor: "var(--noir-dark)" }}
         aria-label="Loading case"
       >
-        <p className="text-xl" style={{ color: "var(--noir-sepia)" }}>
+        <p className="text-xl" style={{ color: "var(--text-on-dark-secondary)" }}>
           Opening case file…
         </p>
       </main>
@@ -148,7 +148,7 @@ export default function CasePage() {
 
   return (
     <main
-      className="min-h-screen px-4 py-10"
+      className="min-h-screen px-5 sm:px-6 py-10"
       style={{ backgroundColor: "var(--noir-dark)" }}
     >
       <AudioController />
@@ -163,13 +163,13 @@ export default function CasePage() {
           aria-label="Still investigating?"
         >
           <div
-            className="max-w-sm w-full rounded-lg p-8 text-center"
+            className="max-w-md w-full rounded-lg p-8 text-center"
             style={{ backgroundColor: "var(--noir-paper)", color: "var(--noir-dark)" }}
           >
-            <p className="text-2xl mb-3" style={{ fontFamily: "'Special Elite', serif" }}>
+            <p className="text-2xl font-bold mb-3">
               Still on the case?
             </p>
-            <p className="text-base mb-6" style={{ color: "#555" }}>
+            <p className="text-base mb-6" style={{ color: "var(--text-on-paper-muted)" }}>
               Take all the time you need, Detective. The case will be here when you&apos;re ready.
             </p>
             <button
@@ -193,7 +193,7 @@ export default function CasePage() {
         />
       )}
 
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Back link */}
         <Link
           href="/cases"
@@ -207,18 +207,18 @@ export default function CasePage() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <span
-              className="text-xs font-bold uppercase tracking-widest px-2 py-1 rounded"
+              className="text-sm font-semibold tracking-[0.06em] px-3 py-1.5 rounded"
               style={{ backgroundColor: "rgba(200,169,110,0.15)", color: "var(--noir-sepia)", border: "1px solid var(--noir-sepia)" }}
             >
               {caseData.scam_type}
             </span>
-            <span className="text-xs" style={{ color: "#666" }}>
+            <span className="text-sm font-medium" style={{ color: "var(--text-on-dark-soft)" }}>
               {caseData.difficulty}
             </span>
           </div>
           <h1
             className="text-3xl sm:text-4xl font-bold"
-            style={{ fontFamily: "'Special Elite', serif", color: "var(--noir-cream)" }}
+            style={{ color: "var(--noir-cream)" }}
           >
             {caseData.title}
           </h1>
@@ -235,7 +235,7 @@ export default function CasePage() {
                 color: "var(--noir-cream)",
               }}
             >
-              <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "var(--noir-sepia)" }}>
+              <p className="text-sm font-semibold tracking-[0.06em] mb-4" style={{ color: "var(--noir-sepia)" }}>
                 Case Briefing
               </p>
               <p>{caseData.briefing}</p>
@@ -248,7 +248,6 @@ export default function CasePage() {
                 backgroundColor: "var(--noir-sepia)",
                 color: "var(--noir-dark)",
                 minHeight: "60px",
-                fontFamily: "'Special Elite', serif",
               }}
               aria-label="Begin investigating the evidence"
             >
@@ -278,8 +277,8 @@ export default function CasePage() {
 
             {foundClues.length < caseData.min_clues_to_deduce && (
               <p
-                className="text-center text-sm mt-4 italic"
-                style={{ color: "#666" }}
+                className="text-center text-sm mt-5 font-medium"
+                style={{ color: "var(--text-on-dark-soft)" }}
                 aria-live="polite"
                 role="status"
               >
@@ -301,7 +300,7 @@ export default function CasePage() {
                 color: "var(--noir-cream)",
               }}
             >
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "var(--noir-red)" }}>
+              <p className="text-sm font-semibold tracking-[0.06em] mb-3" style={{ color: "var(--noir-red)" }}>
                 Interrogation Phase
               </p>
               <p className="text-base">
@@ -311,11 +310,11 @@ export default function CasePage() {
             </div>
 
             {inconsistencyLabels.length > 0 && (
-              <div className="mb-4 space-y-1" role="list" aria-label="Inconsistencies exposed">
+              <div className="mb-4 space-y-2" role="list" aria-label="Inconsistencies exposed">
                 {inconsistencyLabels.map((label, i) => (
                   <div
                     key={i}
-                    className="text-sm px-3 py-2 rounded"
+                    className="text-sm font-medium px-4 py-3 rounded"
                     style={{ backgroundColor: "rgba(139,0,0,0.15)", color: "#ff9999" }}
                     role="listitem"
                   >
