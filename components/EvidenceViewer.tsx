@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { Hotspot } from "@/lib/case-loader";
+import type { MouseEvent } from "react";
+import { CaseData, Hotspot } from "@/lib/case-loader";
 
 interface EvidenceViewerProps {
-  evidence: { type: "sms" | "email" | "popup"; html: string };
+  evidence: CaseData["evidence"];
   hotspots: Hotspot[];
   foundClues: string[];
   onClueFound: (hotspot: Hotspot) => void;
+  onWrongClick: (message: string) => void;
 }
 
 const EVIDENCE_LABELS: Record<string, string> = {
   sms: "SMS Message",
   email: "Email",
   popup: "Browser Pop-up",
+  phone_sim: "Phone Simulator",
 };
 
 export default function EvidenceViewer({
@@ -21,13 +23,19 @@ export default function EvidenceViewer({
   hotspots,
   foundClues,
   onClueFound,
+  onWrongClick,
 }: EvidenceViewerProps) {
-  const [nudge, setNudge] = useState<string | null>(null);
+  const evidenceHtml = evidence.html
+    .replace(/<a\b([^>]*)href=(["']).*?\2([^>]*)>/gi, "<span$1$3>")
+    .replace(/<\/a>/gi, "</span>");
 
-  const handleHotspotClick = (hotspot: Hotspot) => {
+  const handleHotspotClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    hotspot: Hotspot
+  ) => {
+    event.stopPropagation();
     if (foundClues.includes(hotspot.id)) {
-      setNudge("You already marked that clue, Detective.");
-      setTimeout(() => setNudge(null), 2000);
+      onWrongClick("You already marked that clue, Detective.");
       return;
     }
     onClueFound(hotspot);
@@ -36,18 +44,25 @@ export default function EvidenceViewer({
   return (
     <div className="w-full">
       <div
-        className="text-sm font-bold tracking-[0.06em] mb-4 px-1"
+        className="text-xl font-bold uppercase tracking-widest mb-3 px-1"
         style={{ color: "var(--noir-sepia)" }}
         aria-label={`Evidence type: ${EVIDENCE_LABELS[evidence.type]}`}
       >
-        Exhibit A - {EVIDENCE_LABELS[evidence.type]}
+        EXHIBIT A — {EVIDENCE_LABELS[evidence.type]}
       </div>
 
-      <div className="relative rounded-lg overflow-hidden border-2" style={{ borderColor: "var(--noir-sepia)" }}>
+      <div
+        className="relative overflow-hidden border-2"
+        style={{ borderColor: "var(--noir-sepia)" }}
+        onClick={(event) => {
+          event.preventDefault();
+          onWrongClick("Nothing suspicious there, Detective. Keep scanning the evidence.");
+        }}
+      >
         {/* Evidence content */}
         <div
-          className="relative"
-          dangerouslySetInnerHTML={{ __html: evidence.html }}
+          className="evidence-document relative"
+          dangerouslySetInnerHTML={{ __html: evidenceHtml }}
           aria-label="Evidence document"
         />
 
@@ -57,7 +72,7 @@ export default function EvidenceViewer({
           return (
             <button
               key={hotspot.id}
-              onClick={() => handleHotspotClick(hotspot)}
+              onClick={(event) => handleHotspotClick(event, hotspot)}
               aria-label={isFound ? `Clue already found: ${hotspot.label}` : `Tap to investigate this area`}
               aria-pressed={isFound}
               className="absolute transition-all duration-200 group"
@@ -92,11 +107,11 @@ export default function EvidenceViewer({
             >
               {isFound && (
                 <span
-                  className="absolute inset-0 flex items-center justify-center text-sm font-bold opacity-80 select-none pointer-events-none"
+                  className="absolute inset-0 flex items-center justify-center text-xl font-bold opacity-80 select-none pointer-events-none"
                   style={{ color: "var(--noir-red)" }}
                   aria-hidden="true"
                 >
-                  ✓ {hotspot.label}
+                  NOTED
                 </span>
               )}
             </button>
@@ -104,28 +119,17 @@ export default function EvidenceViewer({
         })}
       </div>
 
-      {nudge && (
-        <p
-          className="mt-4 text-center text-sm font-medium"
-          style={{ color: "var(--noir-sepia)" }}
-          role="status"
-          aria-live="polite"
-        >
-          {nudge}
-        </p>
-      )}
-
       <p
-        className="mt-3 text-center text-sm"
-        style={{ color: "var(--text-on-dark-muted)" }}
+        className="mt-3 text-center text-xl italic"
+        style={{ color: "var(--noir-cream)" }}
         aria-label="Instruction: tap highlighted areas to find clues"
       >
         Tap suspicious areas of the evidence to mark clues
       </p>
 
       <p
-        className="mt-4 text-center text-lg font-bold"
-        style={{ color: "var(--noir-cream)" }}
+        className="mt-4 text-center font-bold"
+        style={{ fontSize: "22px", color: "var(--noir-cream)" }}
         aria-live="polite"
         aria-label={`${foundClues.length} of ${hotspots.length} clues found`}
       >

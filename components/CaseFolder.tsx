@@ -10,7 +10,7 @@ interface CaseFolderProps {
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   Beginner: "#2d6a4f",
-  Intermediate: "#b5838d",
+  Intermediate: "#6d3f4a",
   Advanced: "#8B0000",
 };
 
@@ -28,12 +28,12 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
     <button
       onClick={onClick}
       aria-label={`Open case: ${caseData.title}`}
-      className="group relative w-full text-left transition-all duration-200 hover:-translate-y-1 hover:rotate-1 focus-visible:outline-2 rounded-lg"
+      className="case-folder-button group relative w-full text-left transition-all duration-200 hover:-translate-y-1 focus-visible:outline-2 rounded-lg"
       style={{ minHeight: "60px" }}
     >
       {/* Folder tab */}
       <div
-        className="absolute -top-3 left-6 px-4 py-2 rounded-t-md text-sm font-bold tracking-[0.08em] z-10"
+        className="absolute -top-4 left-6 px-3 py-1 rounded-t-md text-xl font-bold z-10"
         style={{ backgroundColor: "var(--noir-paper)", color: "var(--noir-dark)" }}
       >
         CASE FILE
@@ -41,7 +41,7 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
 
       {/* Folder body */}
       <div
-        className="relative rounded-lg p-6 pt-8 border-2 transition-all duration-200"
+        className="case-folder-body relative rounded-lg p-6 pt-10 border-2 transition-all duration-200"
         style={{
           backgroundColor: "var(--noir-paper)",
           borderColor: "var(--noir-sepia)",
@@ -50,7 +50,7 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
       >
         {solved && (
           <div
-            className="absolute top-3 right-4 text-sm font-bold tracking-[0.08em] rotate-[-12deg] border-2 px-3 py-1.5 opacity-80"
+            className="absolute top-3 right-4 text-xl font-bold rotate-[-12deg] border-2 px-2 py-1 opacity-80"
             style={{ color: "var(--noir-red)", borderColor: "var(--noir-red)" }}
           >
             CLOSED
@@ -66,21 +66,21 @@ export default function CaseFolder({ caseData, onClick, solved }: CaseFolderProp
             >
               {caseData.title}
             </h3>
-            <p className="text-sm mt-2" style={{ color: "var(--text-on-paper-secondary)" }}>
+            <p className="text-xl mt-1" style={{ color: "var(--text-on-paper-secondary)" }}>
               {caseData.scam_type}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex flex-wrap items-center gap-2 mt-4">
           <span
-            className="text-sm font-bold px-3 py-1.5 rounded text-white"
+            className="text-xl font-bold px-3 py-1 rounded uppercase tracking-wide text-white"
             style={{ backgroundColor: diffColor }}
           >
             {caseData.difficulty}
           </span>
-          <span className="text-sm font-medium" style={{ color: "var(--text-on-paper-muted)" }}>
-            Open this case file
+          <span className="text-xl" style={{ color: "var(--text-on-paper-muted)" }}>
+            Click to open file
           </span>
         </div>
       </div>

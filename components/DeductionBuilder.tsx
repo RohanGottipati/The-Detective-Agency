@@ -37,7 +37,7 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
         style={{ borderColor: "#444", backgroundColor: "var(--noir-medium)", opacity: 0.6 }}
         aria-label="Deduction locked — find more clues first"
       >
-        <p className="text-lg font-semibold" style={{ color: "var(--text-on-dark-muted)" }}>
+        <p className="text-xl" style={{ color: "var(--noir-cream)" }}>
           🔒 Find more clues before filing your report
         </p>
       </div>
@@ -53,12 +53,12 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
     >
       <h3
         id="deduction-heading"
-        className="text-xl font-bold mb-3"
+        className="text-xl font-bold mb-2"
         style={{ color: "var(--noir-sepia)" }}
       >
         File Your Report
       </h3>
-      <p className="text-base mb-6" style={{ color: "var(--text-on-dark-muted)" }}>
+      <p className="text-xl mb-5" style={{ color: "var(--noir-cream)" }}>
         Based on the evidence, what kind of scam is this?
       </p>
 
@@ -67,7 +67,7 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
         {options.map((option) => (
           <label
             key={option.id}
-            className="flex items-start gap-4 p-5 rounded-lg cursor-pointer transition-all hover:opacity-90"
+            className="flex items-start gap-4 p-4 rounded-lg cursor-pointer transition-all hover:opacity-90"
             style={{
               backgroundColor: selected === option.id ? "rgba(200, 169, 110, 0.15)" : "rgba(255,255,255,0.05)",
               border: `2px solid ${selected === option.id ? "var(--noir-sepia)" : "#444"}`,
@@ -83,10 +83,10 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
                 setSelected(option.id);
                 setFeedback(null);
               }}
-              className="mt-1 w-6 h-6 cursor-pointer accent-yellow-600 shrink-0"
+              className="mt-1 w-5 h-5 cursor-pointer accent-yellow-600"
               aria-label={option.text}
             />
-            <span className="text-base leading-relaxed" style={{ color: "var(--noir-cream)" }}>
+            <span className="text-xl leading-relaxed" style={{ color: "var(--noir-cream)" }}>
               {option.text}
             </span>
           </label>
@@ -95,7 +95,7 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
 
       {feedback && (
         <p
-          className="mt-5 text-base font-semibold"
+          className="mt-4 text-xl italic"
           style={{ color: "#e07070" }}
           role="alert"
           aria-live="assertive"
@@ -107,7 +107,7 @@ export default function DeductionBuilder({ options, onSubmit, disabled }: Deduct
       <button
         onClick={handleSubmit}
         disabled={!selected || submitted}
-        className="mt-6 w-full font-bold text-lg rounded-lg transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2"
+        className="mt-6 w-full font-bold text-xl rounded-lg transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2"
         style={{
           backgroundColor: "var(--noir-sepia)",
           color: "var(--noir-dark)",

@@ -17,6 +17,10 @@ export async function POST(req: NextRequest) {
   const timeStr = minutes > 0 ? `${minutes} min ${seconds}s` : `${seconds} seconds`;
 
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is not configured");
+    }
+
     const model = client.getGenerativeModel({
       model: "gemini-2.0-flash",
       systemInstruction: `You are the Chief of The Detective Agency, a noir-styled organization of retired detectives who fight digital scams. Write personalized case commendations in the style of a 1940s detective agency chief — formal, respectful, and proud. Address the detective as "Detective." Keep it to 2–3 sentences. Use noir-appropriate language, warm and encouraging. Never condescending. These are seniors who deserve full respect.`,

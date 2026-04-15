@@ -1,16 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 interface CommendationCardProps {
   text: string;
   caseTitle: string;
   learningSummary: string;
   isLoading?: boolean;
+  onAddToArchive: () => void;
+  onReturnToCases: () => void;
 }
 
-export default function CommendationCard({ text, caseTitle, learningSummary, isLoading }: CommendationCardProps) {
+export default function CommendationCard({
+  text,
+  caseTitle,
+  learningSummary,
+  isLoading,
+  onAddToArchive,
+  onReturnToCases,
+}: CommendationCardProps) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
 
@@ -24,7 +32,8 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
         setDone(true);
         return;
       }
-      setDisplayed((prev) => prev + text[i]);
+      const nextCharacter = text[i];
+      setDisplayed((prev) => prev + nextCharacter);
       i++;
     }, 28);
     return () => clearInterval(interval);
@@ -40,10 +49,10 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
         aria-label="Generating commendation"
       >
         <p
-          className="text-2xl font-semibold animate-pulse"
+          className="text-2xl italic animate-pulse"
           style={{ color: "var(--noir-dark)" }}
         >
-          Analyzing evidence…
+          One moment, Detective...
         </p>
       </div>
     );
@@ -51,7 +60,7 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
 
   return (
     <div
-      className="rounded-lg p-8 sm:p-10 border-2 max-w-2xl mx-auto"
+      className="rounded-lg p-8 border-2 max-w-2xl mx-auto"
       style={{ backgroundColor: "var(--noir-paper)", borderColor: "var(--noir-sepia)", color: "var(--noir-dark)" }}
       role="article"
       aria-label="Case commendation"
@@ -59,7 +68,7 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
       {/* Red stamp header */}
       <div className="text-center mb-6">
         <div
-          className="stamp-animation inline-block border-4 px-8 py-3 text-xl sm:text-2xl font-bold tracking-[0.12em] rotate-[-4deg] mb-4"
+          className="case-closed-stamp inline-block border-4 px-8 py-3 text-2xl font-bold tracking-widest mb-4"
           style={{ borderColor: "var(--noir-red)", color: "var(--noir-red)" }}
           aria-label="Case closed stamp"
         >
@@ -75,10 +84,11 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
 
       {/* Typewriter commendation */}
       <div
-        className="text-lg leading-relaxed mb-6 p-5 rounded border-l-4 min-h-[96px]"
+        className="text-[22px] leading-relaxed mb-6 p-4 rounded border-l-4 min-h-[80px]"
         style={{
           borderLeftColor: "var(--noir-sepia)",
           backgroundColor: "rgba(200, 169, 110, 0.1)",
+          fontStyle: "italic",
           color: "var(--text-on-paper)",
         }}
         aria-live="polite"
@@ -94,7 +104,7 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
 
       {/* Learning summary */}
       <div
-        className="rounded p-5 mb-6 text-base"
+        className="rounded p-4 mb-6 text-[22px]"
         style={{ backgroundColor: "rgba(0,0,0,0.08)", color: "var(--text-on-paper-secondary)" }}
       >
         <p className="font-bold mb-1" style={{ color: "var(--noir-dark)" }}>
@@ -106,9 +116,25 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
       {/* Actions */}
       {done && (
         <div className="flex flex-col sm:flex-row gap-3">
-          <Link
-            href="/cases"
-            className="flex-1 text-center py-4 rounded-lg font-bold text-lg transition-all hover:opacity-90 focus-visible:outline-2"
+          <button
+            type="button"
+            onClick={onAddToArchive}
+            className="flex-1 text-center py-4 rounded-lg font-bold text-xl transition-all hover:opacity-90 focus-visible:outline-2"
+            style={{
+              backgroundColor: "var(--noir-sepia)",
+              color: "var(--noir-dark)",
+              minHeight: "60px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Add to Archive
+          </button>
+          <button
+            type="button"
+            onClick={onReturnToCases}
+            className="flex-1 text-center py-4 rounded-lg font-bold text-xl transition-all hover:opacity-90 focus-visible:outline-2"
             style={{
               backgroundColor: "var(--noir-dark)",
               color: "var(--noir-cream)",
@@ -119,21 +145,7 @@ export default function CommendationCard({ text, caseTitle, learningSummary, isL
             }}
           >
             Return to Cases
-          </Link>
-          <Link
-            href="/archive"
-            className="flex-1 text-center py-4 rounded-lg font-bold text-lg transition-all hover:opacity-90 focus-visible:outline-2"
-            style={{
-              backgroundColor: "var(--noir-sepia)",
-              color: "var(--noir-dark)",
-              minHeight: "60px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            View Archive
-          </Link>
+          </button>
         </div>
       )}
     </div>

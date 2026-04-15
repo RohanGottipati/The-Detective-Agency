@@ -24,13 +24,13 @@ export default function ClueStamp({ label, explanation, onDismiss }: ClueStampPr
       aria-label={`Clue found: ${label}`}
     >
       <div
-        className="max-w-lg w-full rounded-lg p-8 sm:p-10 text-center"
+        className="max-w-sm w-full rounded-lg p-8 text-center"
         style={{ backgroundColor: "var(--noir-paper)", color: "var(--noir-dark)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Red stamp */}
         <div
-          className="stamp-animation inline-block border-4 px-6 py-3 mb-5 text-2xl sm:text-3xl font-bold tracking-[0.12em] rotate-[-8deg]"
+          className="stamp-animation inline-block border-4 px-6 py-3 mb-4 text-3xl font-bold tracking-widest rotate-[-8deg]"
           style={{ borderColor: "var(--noir-red)", color: "var(--noir-red)" }}
           aria-hidden="true"
         >
@@ -38,24 +38,24 @@ export default function ClueStamp({ label, explanation, onDismiss }: ClueStampPr
         </div>
 
         <h3
-          className="text-xl font-bold mb-4"
+          className="text-xl font-bold mb-3"
         >
           Clue Found: {label}
         </h3>
 
-        <p className="text-base leading-relaxed mb-6" style={{ color: "var(--text-on-paper-secondary)" }}>
+        <p className="text-xl leading-relaxed mb-6" style={{ color: "var(--text-on-paper-secondary)" }}>
           {explanation}
         </p>
 
         <button
           onClick={onDismiss}
           autoFocus
-          className="px-8 py-4 rounded font-bold text-lg transition-all hover:opacity-90 focus-visible:outline-2"
+          className="px-8 py-3 rounded font-bold text-xl transition-all hover:opacity-90 focus-visible:outline-2"
           style={{
             backgroundColor: "var(--noir-dark)",
             color: "var(--noir-cream)",
             minHeight: "60px",
-            minWidth: "180px",
+            minWidth: "160px",
           }}
         >
           Got it, Detective

@@ -9,12 +9,19 @@ export default function AudioController() {
   const jazzRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    rainRef.current = new Audio("/audio/rain.mp3");
-    jazzRef.current = new Audio("/audio/jazz.mp3");
-    rainRef.current.loop = true;
-    jazzRef.current.loop = true;
-    rainRef.current.volume = 0.4;
-    jazzRef.current.volume = 0.25;
+    const createLoop = (src: string, volume: number) => {
+      try {
+        const audio = new Audio(src);
+        audio.loop = true;
+        audio.volume = volume;
+        return audio;
+      } catch {
+        return null;
+      }
+    };
+
+    rainRef.current = createLoop("/audio/rain.mp3", 0.4);
+    jazzRef.current = createLoop("/audio/jazz.mp3", 0.25);
 
     return () => {
       rainRef.current?.pause();
@@ -47,11 +54,11 @@ export default function AudioController() {
       onClick={toggleMute}
       aria-label={muted ? "Unmute background audio" : "Mute background audio"}
       title={muted ? "Enable ambient sounds" : "Mute ambient sounds"}
-      className="fixed top-4 right-4 z-50 touch-target w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl transition-all hover:scale-110 focus-visible:outline-2"
+      className="fixed top-4 right-4 z-50 touch-target h-[60px] w-[60px] rounded-full border-2 flex items-center justify-center text-xl transition-all hover:scale-110 focus-visible:outline-2"
       style={{
         borderColor: "var(--noir-sepia)",
         backgroundColor: "var(--noir-dark)",
-        color: muted ? "var(--text-on-dark-soft)" : "var(--noir-sepia)",
+        color: muted ? "var(--noir-cream)" : "var(--noir-sepia)",
       }}
     >
       {muted ? "🔇" : "🎵"}
