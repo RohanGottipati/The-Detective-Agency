@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface DeskRotaryPhoneProps {
@@ -9,9 +9,43 @@ interface DeskRotaryPhoneProps {
 }
 
 export function DeskRotaryPhone({ className = "", onClick }: DeskRotaryPhoneProps) {
-  const [isRinging, setIsRinging] = useState(true);
+  const [isRinging, setIsRinging] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return sessionStorage.getItem("phoneAnswered") !== "true";
+  });
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (isRinging) {
+      audioRef.current = new Audio("/audio/rotary-phone-ring.mp3");
+
+      // The animation rings for 0.310 * 2900ms ≈ 900ms, then goes silent
+      const playRing = () => {
+        if (!audioRef.current) return;
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => {});
+        setTimeout(() => { audioRef.current?.pause(); }, 900);
+      };
+
+      playRing();
+      intervalRef.current = setInterval(playRing, 2900);
+    } else {
+      audioRef.current?.pause();
+      audioRef.current = null;
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+    return () => {
+      audioRef.current?.pause();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isRinging]);
 
   const handleClick = () => {
+    sessionStorage.setItem("phoneAnswered", "true");
     setIsRinging(false);
     onClick();
   };
