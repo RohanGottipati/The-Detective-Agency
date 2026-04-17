@@ -1,13 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+
+const NORMAL_VOLUMES = { rain: 0.35, jazz: 0.22 };
+const DUCKED_VOLUMES = { rain: 0.07, jazz: 0.05 };
 
 export default function AudioController() {
-  const [muted, setMuted] = useState(true);
-  const [started, setStarted] = useState(false);
   const rainRef = useRef<HTMLAudioElement | null>(null);
   const jazzRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
+  const fadeFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const createLoop = (src: string, volume: number) => {
@@ -15,15 +17,14 @@ export default function AudioController() {
         const audio = new Audio(src);
         audio.loop = true;
         audio.volume = volume;
-        audio.muted = true;
         return audio;
       } catch {
         return null;
       }
     };
 
-    rainRef.current = createLoop("/audio/rain.mp3", 0.35);
-    jazzRef.current = createLoop("/audio/jazz.mp3", 0.22);
+    rainRef.current = createLoop("/audio/rain.mp3", NORMAL_VOLUMES.rain);
+    jazzRef.current = createLoop("/audio/noir-jazz.mp3", NORMAL_VOLUMES.jazz);
 
     return () => {
       rainRef.current?.pause();
@@ -31,54 +32,54 @@ export default function AudioController() {
     };
   }, []);
 
-  const setAllMuted = useCallback((nextMuted: boolean) => {
-    if (rainRef.current) rainRef.current.muted = nextMuted;
-    if (jazzRef.current) jazzRef.current.muted = nextMuted;
-    setMuted(nextMuted);
+  const fadeTo = useCallback((targetRain: number, targetJazz: number, durationMs: number) => {
+    if (fadeFrameRef.current !== null) cancelAnimationFrame(fadeFrameRef.current);
+    const rain = rainRef.current;
+    const jazz = jazzRef.current;
+    if (!rain || !jazz) return;
+
+    const startRain = rain.volume;
+    const startJazz = jazz.volume;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min((now - startTime) / durationMs, 1);
+      const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      rain.volume = startRain + (targetRain - startRain) * ease;
+      jazz.volume = startJazz + (targetJazz - startJazz) * ease;
+      if (t < 1) fadeFrameRef.current = requestAnimationFrame(tick);
+      else fadeFrameRef.current = null;
+    };
+
+    fadeFrameRef.current = requestAnimationFrame(tick);
   }, []);
 
   const startAudio = useCallback(() => {
     if (startedRef.current) return;
     startedRef.current = true;
-    setStarted(true);
-    setAllMuted(false);
     rainRef.current?.play().catch(() => {});
     jazzRef.current?.play().catch(() => {});
-  }, [setAllMuted]);
+  }, []);
 
   useEffect(() => {
-    const handleFirstInteraction = () => startAudio();
-    window.addEventListener("pointerdown", handleFirstInteraction, { once: true });
-    window.addEventListener("keydown", handleFirstInteraction, { once: true });
-
+    window.addEventListener("pointerdown", startAudio, { once: true });
+    window.addEventListener("keydown", startAudio, { once: true });
     return () => {
-      window.removeEventListener("pointerdown", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
+      window.removeEventListener("pointerdown", startAudio);
+      window.removeEventListener("keydown", startAudio);
     };
   }, [startAudio]);
 
-  const toggleMute = () => {
-    if (!started) {
-      startAudio();
-      return;
-    }
-    setAllMuted(!muted);
-  };
+  useEffect(() => {
+    const duck = () => fadeTo(DUCKED_VOLUMES.rain, DUCKED_VOLUMES.jazz, 600);
+    const unduck = () => fadeTo(NORMAL_VOLUMES.rain, NORMAL_VOLUMES.jazz, 1500);
+    window.addEventListener("tts-start", duck);
+    window.addEventListener("tts-end", unduck);
+    return () => {
+      window.removeEventListener("tts-start", duck);
+      window.removeEventListener("tts-end", unduck);
+    };
+  }, [fadeTo]);
 
-  return (
-    <button
-      type="button"
-      onClick={toggleMute}
-      aria-label={muted ? "Unmute background audio" : "Mute background audio"}
-      title={muted ? "Unmute background audio" : "Mute background audio"}
-      className="fixed right-20 top-3 z-50 flex h-[40px] w-[40px] items-center justify-center rounded-full border-2 text-[18px] transition-transform duration-200 hover:scale-105 focus-visible:outline-2 sm:right-24 sm:top-4"
-      style={{
-        borderColor: "var(--noir-sepia)",
-        backgroundColor: "var(--noir-dark)",
-        color: "var(--noir-sepia)",
-      }}
-    >
-      {muted ? "🔇" : "🔊"}
-    </button>
-  );
+  return null;
 }

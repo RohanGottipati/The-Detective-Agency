@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AudioController from "@/components/AudioController";
 
 export const metadata: Metadata = {
   title: "The Detective Agency",
@@ -18,6 +19,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="antialiased overflow-x-hidden">
+        <AudioController />
         {children}
       </body>
     </html>

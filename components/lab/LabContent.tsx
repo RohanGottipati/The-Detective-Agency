@@ -61,9 +61,9 @@ export function LabContent({ onClose }: LabContentProps) {
       className="flex h-full min-h-0 w-full flex-col overflow-hidden"
       style={{ backgroundColor: "var(--noir-dark)" }}
     >
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto xl:flex-row xl:overflow-hidden">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden">
         <div
-          className="order-2 flex min-h-[360px] flex-1 flex-col overflow-hidden border-t-2 xl:order-1 xl:w-1/2 xl:max-w-[50%] xl:border-r-2 xl:border-t-0"
+          className="order-2 flex min-h-[360px] flex-1 flex-col overflow-hidden border-t-2 lg:order-1 lg:w-1/2 lg:max-w-[50%] lg:border-r-2 lg:border-t-0"
           style={{ borderColor: "var(--noir-sepia)" }}
         >
           <header
@@ -166,10 +166,10 @@ export function LabContent({ onClose }: LabContentProps) {
         </div>
 
         <div
-          className="order-1 relative flex min-h-[420px] items-start justify-center overflow-auto px-3 py-4 sm:px-5 xl:order-2 xl:w-1/2 xl:max-w-[50%] xl:items-center xl:overflow-hidden xl:px-6 xl:py-6"
+          className="order-1 relative flex max-h-[58svh] min-h-[320px] items-start justify-center overflow-auto px-3 py-4 sm:px-5 lg:order-2 lg:max-h-none lg:w-1/2 lg:max-w-[50%] lg:items-center lg:overflow-hidden lg:px-6 lg:py-6"
           style={{ backgroundColor: "rgba(0,0,0,0.3)" }}
         >
-          <div className="origin-top [transform:scale(0.56)] min-[380px]:[transform:scale(0.62)] min-[440px]:[transform:scale(0.72)] sm:[transform:scale(0.82)] md:[transform:scale(0.94)] xl:[transform:scale(0.98)] 2xl:[transform:scale(1.06)]">
+          <div className="origin-top [transform:scale(0.50)] min-[380px]:[transform:scale(0.56)] min-[440px]:[transform:scale(0.64)] sm:[transform:scale(0.73)] md:[transform:scale(0.82)] lg:[transform:scale(0.92)] xl:[transform:scale(0.98)] 2xl:[transform:scale(1.06)]">
             <LabPhoneSimulator
               scenario={scenario}
               currentStepIndex={currentStepIndex}

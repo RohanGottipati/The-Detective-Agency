@@ -134,6 +134,7 @@ export function LabChat({
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
+      window.dispatchEvent(new CustomEvent("tts-end"));
     }
     if (playingIndex === index) {
       setPlayingIndex(null);
@@ -154,11 +155,20 @@ export function LabChat({
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       audio.src = url;
-      audio.onended = () => { setPlayingIndex(null); URL.revokeObjectURL(url); };
-      audio.onerror = () => setPlayingIndex(null);
+      audio.onended = () => {
+        setPlayingIndex(null);
+        URL.revokeObjectURL(url);
+        window.dispatchEvent(new CustomEvent("tts-end"));
+      };
+      audio.onerror = () => {
+        setPlayingIndex(null);
+        window.dispatchEvent(new CustomEvent("tts-end"));
+      };
+      window.dispatchEvent(new CustomEvent("tts-start"));
       await audio.play();
     } catch {
       setPlayingIndex(null);
+      window.dispatchEvent(new CustomEvent("tts-end"));
     }
   };
 

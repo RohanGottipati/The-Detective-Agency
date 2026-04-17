@@ -65,6 +65,7 @@ export default function MicButton({ pageContext }: { pageContext: string }) {
       URL.revokeObjectURL(blobUrlRef.current);
       blobUrlRef.current = null;
     }
+    window.dispatchEvent(new CustomEvent("tts-end"));
   };
 
   const reset = () => {
@@ -119,13 +120,18 @@ export default function MicButton({ pageContext }: { pageContext: string }) {
       audio.pause();
       audio.src = url;
       audio.load();
-      audio.onended = () => setState("idle");
+      audio.onended = () => {
+        window.dispatchEvent(new CustomEvent("tts-end"));
+        setState("idle");
+      };
       audio.onerror = (e) => {
         console.error("Audio playback error", e);
+        window.dispatchEvent(new CustomEvent("tts-end"));
         setState("text-only");
       };
 
       setState("speaking");
+      window.dispatchEvent(new CustomEvent("tts-start"));
       await audio.play();
     } catch (err) {
       console.error("Voice guide error:", err);
