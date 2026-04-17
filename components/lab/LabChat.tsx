@@ -37,9 +37,11 @@ export function LabChat({
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<ConversationHistoryMessage[]>([]);
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const prevStepIndexRef = useRef<number>(currentStepIndex);
   const completionFiredRef = useRef(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Inject intro message whenever scenario changes
   useEffect(() => {
@@ -128,6 +130,38 @@ export function LabChat({
     }
   };
 
+  const handlePlayAloud = async (text: string, index: number) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (playingIndex === index) {
+      setPlayingIndex(null);
+      return;
+    }
+
+    setPlayingIndex(index);
+    const audio = new Audio();
+    audioRef.current = audio;
+
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("TTS failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      audio.src = url;
+      audio.onended = () => { setPlayingIndex(null); URL.revokeObjectURL(url); };
+      audio.onerror = () => setPlayingIndex(null);
+      await audio.play();
+    } catch {
+      setPlayingIndex(null);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = input.trim();
@@ -180,6 +214,20 @@ export function LabChat({
             >
               {msg.content}
             </p>
+            {msg.role === "tutor" && (
+              <button
+                onClick={() => handlePlayAloud(msg.content, i)}
+                className="mt-2 border px-3 py-1 font-typewriter text-[16px] uppercase transition-opacity hover:opacity-75"
+                style={{
+                  borderColor: "var(--noir-sepia)",
+                  color: "var(--noir-sepia)",
+                  backgroundColor: "transparent",
+                }}
+                aria-label={playingIndex === i ? "Stop audio" : "Play message aloud"}
+              >
+                {playingIndex === i ? "🔊 Playing…" : "▶ Play Aloud"}
+              </button>
+            )}
             {/* Prompt quality badge */}
             {msg.role === "user" && msg.promptQuality && (
               <span

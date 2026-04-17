@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import AudioController from "@/components/AudioController";
+import MicButton from "@/components/MicButton";
 import { DeskRotaryPhone } from "@/components/DeskRotaryPhone";
 import { DeskEvidenceRecorder } from "@/components/DeskEvidenceRecorder";
 import { DeskTeletypeManual } from "@/components/DeskTeletypeManual";
@@ -43,65 +43,50 @@ export default function Home() {
   useEffect(() => {
     clearArchive();
   }, []);
-  const [ttsLoading, setTtsLoading] = useState(false);
   const [ttsPlaying, setTtsPlaying] = useState(false);
+  const [displayedText, setDisplayedText] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioBlobUrl = useRef<string | null>(null);
+
+  const startBriefingPlayback = async () => {
+    audioRef.current?.pause();
+    setDisplayedText("");
+    const audio = new Audio("/audio/chief-briefing.mp3");
+    audioRef.current = audio;
+    setTtsPlaying(true);
+
+    audio.ontimeupdate = () => {
+      if (audio.duration) {
+        const progress = audio.currentTime / audio.duration;
+        const charsToShow = Math.floor(progress * CHIEF_SCRIPT.length);
+        setDisplayedText(CHIEF_SCRIPT.slice(0, charsToShow));
+      }
+    };
+
+    audio.onended = () => {
+      setDisplayedText(CHIEF_SCRIPT);
+      setTtsPlaying(false);
+    };
+
+    try { await audio.play(); } catch { setTtsPlaying(false); }
+  };
 
   const openChiefDialog = () => {
     setShowChiefDialog(true);
+    setDisplayedText("");
+    setTimeout(startBriefingPlayback, 300);
   };
 
   const closeChiefDialog = () => {
     audioRef.current?.pause();
     audioRef.current = null;
+    setDisplayedText("");
     setShowChiefDialog(false);
     setTtsPlaying(false);
-    setTtsLoading(false);
-  };
-
-  const playChiefBriefing = async () => {
-    if (ttsLoading) return;
-
-    // Replay cached audio if available
-    if (audioBlobUrl.current) {
-      audioRef.current?.pause();
-      const audio = new Audio(audioBlobUrl.current);
-      audioRef.current = audio;
-      setTtsPlaying(true);
-      audio.onended = () => setTtsPlaying(false);
-      try { await audio.play(); } catch { setTtsPlaying(false); }
-      return;
-    }
-
-    setTtsLoading(true);
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: CHIEF_SCRIPT }),
-      });
-      if (!res.ok) throw new Error("TTS failed");
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      audioBlobUrl.current = url;
-
-      audioRef.current?.pause();
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      setTtsPlaying(true);
-      audio.onended = () => setTtsPlaying(false);
-      await audio.play();
-    } catch (err) {
-      console.error("Chief TTS error:", err);
-    } finally {
-      setTtsLoading(false);
-    }
   };
 
   return (
     <main className="page-fade-in w-full h-screen flex flex-col overflow-hidden">
-      <AudioController />
+      <MicButton pageContext="On this screen you see The Detective's Desk. On the left is the Field Manual — tap it if you want to learn about AI and online scams. In the middle is the Rotary Phone — tap it to hear a briefing from the Chief and get started. On the right is the Evidence Board — tap it to pick a case and begin investigating. If this is your first time, tap the phone first." />
 
       {/* CRT Scanlines overlay */}
       <div className="scanlines absolute inset-0 pointer-events-none z-50" aria-hidden="true" />
@@ -212,23 +197,23 @@ export default function Home() {
 
               {/* Message */}
               <p className="text-white text-3xl leading-[1.8] mt-6 font-sans font-medium">
-                {CHIEF_SCRIPT}
+                {displayedText}
+                {ttsPlaying && <span className="animate-pulse ml-0.5">|</span>}
               </p>
 
               {/* Actions */}
               <div className="mt-8 flex flex-col gap-4">
-                {/* TTS Button */}
+                {/* Replay Button */}
                 <button
-                  onClick={playChiefBriefing}
-                  disabled={ttsLoading}
-                  className="flex items-center justify-center gap-3 bg-black/50 border-4 border-yellow-400 px-6 py-4 hover:bg-yellow-500/20 transition-colors disabled:opacity-60 disabled:cursor-wait w-full"
-                  aria-label="Hear the Chief speak"
+                  onClick={startBriefingPlayback}
+                  className="flex items-center justify-center gap-3 bg-black/50 border-4 border-yellow-400 px-6 py-4 hover:bg-yellow-500/20 transition-colors w-full"
+                  aria-label="Replay the Chief's briefing"
                 >
                   <span className="text-2xl" aria-hidden="true">
-                    {ttsLoading ? "⏳" : ttsPlaying ? "🔊" : "📞"}
+                    {ttsPlaying ? "🔊" : "📞"}
                   </span>
                   <span className="font-retro text-yellow-300 text-sm tracking-widest">
-                    {ttsLoading ? "CONNECTING..." : ttsPlaying ? "PLAYING..." : "HEAR THIS READ ALOUD"}
+                    {ttsPlaying ? "PLAYING..." : "REPLAY BRIEFING"}
                   </span>
                 </button>
 

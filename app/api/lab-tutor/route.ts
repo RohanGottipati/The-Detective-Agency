@@ -99,7 +99,8 @@ ${phoneStateContext}`;
 
     return Response.json({ response });
   } catch (err) {
-    console.error("Lab tutor error:", err);
-    return Response.json({ response: FALLBACK });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Lab tutor error:", msg);
+    return Response.json({ response: FALLBACK, error: msg }, { status: 200 });
   }
 }
