@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export const GEMINI_FLASH_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+const GEMINI_FLASH_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
 
@@ -20,5 +20,3 @@ export function assertGeminiConfigured() {
     throw new Error("GEMINI_API_KEY is not configured");
   }
 }
-
-export default genAI;
