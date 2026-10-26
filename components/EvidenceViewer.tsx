@@ -36,12 +36,6 @@ export default function EvidenceViewer({
       return;
     }
 
-    try {
-      new Audio("/audio/typewriter.mp3").play().catch(() => {});
-    } catch {
-      // Audio is decorative. A blocked or missing file should not interrupt play.
-    }
-
     onClueFound(hotspot.id);
   };
 
