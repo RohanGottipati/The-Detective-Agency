@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-const NORMAL_VOLUMES = { rain: 0.35, jazz: 0.22 };
-const DUCKED_VOLUMES = { rain: 0.07, jazz: 0.05 };
+const NORMAL_VOLUME = 0.22;
+const DUCKED_VOLUME = 0.05;
 
 export default function AudioController() {
-  const rainRef = useRef<HTMLAudioElement | null>(null);
   const jazzRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
   const fadeFrameRef = useRef<number | null>(null);
@@ -23,30 +22,25 @@ export default function AudioController() {
       }
     };
 
-    rainRef.current = createLoop("/audio/rain.mp3", NORMAL_VOLUMES.rain);
-    jazzRef.current = createLoop("/audio/noir-jazz.mp3", NORMAL_VOLUMES.jazz);
+    jazzRef.current = createLoop("/audio/noir-jazz.mp3", NORMAL_VOLUME);
 
     return () => {
-      rainRef.current?.pause();
       jazzRef.current?.pause();
     };
   }, []);
 
-  const fadeTo = useCallback((targetRain: number, targetJazz: number, durationMs: number) => {
+  const fadeTo = useCallback((target: number, durationMs: number) => {
     if (fadeFrameRef.current !== null) cancelAnimationFrame(fadeFrameRef.current);
-    const rain = rainRef.current;
     const jazz = jazzRef.current;
-    if (!rain || !jazz) return;
+    if (!jazz) return;
 
-    const startRain = rain.volume;
-    const startJazz = jazz.volume;
+    const start = jazz.volume;
     const startTime = performance.now();
 
     const tick = (now: number) => {
       const t = Math.min((now - startTime) / durationMs, 1);
       const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      rain.volume = startRain + (targetRain - startRain) * ease;
-      jazz.volume = startJazz + (targetJazz - startJazz) * ease;
+      jazz.volume = start + (target - start) * ease;
       if (t < 1) fadeFrameRef.current = requestAnimationFrame(tick);
       else fadeFrameRef.current = null;
     };
@@ -57,7 +51,6 @@ export default function AudioController() {
   const startAudio = useCallback(() => {
     if (startedRef.current) return;
     startedRef.current = true;
-    rainRef.current?.play().catch(() => {});
     jazzRef.current?.play().catch(() => {});
   }, []);
 
@@ -71,8 +64,8 @@ export default function AudioController() {
   }, [startAudio]);
 
   useEffect(() => {
-    const duck = () => fadeTo(DUCKED_VOLUMES.rain, DUCKED_VOLUMES.jazz, 600);
-    const unduck = () => fadeTo(NORMAL_VOLUMES.rain, NORMAL_VOLUMES.jazz, 1500);
+    const duck = () => fadeTo(DUCKED_VOLUME, 600);
+    const unduck = () => fadeTo(NORMAL_VOLUME, 1500);
     window.addEventListener("tts-start", duck);
     window.addEventListener("tts-end", unduck);
     return () => {
